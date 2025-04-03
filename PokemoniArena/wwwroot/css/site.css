@@ -1,0 +1,84 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+.prubehBoje{
+    margin-top: 10px;
+}
+.pokemon-img {
+    width: 250px;
+    height: 250px;
+}
+
+.zivoty-container {
+    position: relative;
+    width: 250px;
+    height: 25px;
+    background-color: #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bar-zivotu {
+    height: 100%;
+    width: 100%;
+    background-color: #32CD32;
+    border-radius: 5px;
+}
+
+.zivoty-text {
+    position: absolute;
+    width: 100%;
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    z-index: 1;
+}
+.pokemon-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 1000px) {
+    .pokemon-img {
+        width: 165px;
+        height: 165px;
+    }
+    .zivoty-container{
+        width: 165px;
+    }
+}
+
+@media (max-width: 770px) {
+    .col-sm {
+        flex: auto;
+    }
+}

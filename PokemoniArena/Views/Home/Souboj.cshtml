@@ -1,0 +1,70 @@
+﻿@model PokemoniArena.Models.SoubojViewModel
+<div class="text-center">
+    <h1>🥊 Pokémon Souboj! 🥊</h1>
+    <div class="row">
+        <div class="col-sm pokemon-container">
+            <img src="~/image/@(Model.HracPokemon.Jmeno.ToLower()).png" alt="@Model.HracPokemon.Jmeno" class="pokemon-img"/>
+            <div class="zivoty-container">
+                <div class="zivoty-text"><p>@Model.HracPokemon.Zivoty / @Model.HracPokemon.MaxZivoty</p></div>
+                <div class="bar-zivotu" id="bar-zivotu-hrac" data-zivoty="@Model.HracPokemon.Zivoty" data-max-zivoty="@Model.HracPokemon.MaxZivoty"></div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <h2>@Model.UvodniZprava</h2>
+        </div>
+        <div class="col-sm pokemon-container">
+            <img src="~/image/@(Model.Protivnik.Jmeno.ToLower()).png" alt="@Model.Protivnik.Jmeno" class="pokemon-img"/>
+            <div class="zivoty-container">
+                <div class="zivoty-text"><p>@Model.Protivnik.Zivoty / @Model.Protivnik.MaxZivoty</p></div>
+                <div class="bar-zivotu" id="bar-zivotu-protivnik" data-zivoty="@Model.Protivnik.Zivoty" data-max-zivoty="@Model.Protivnik.MaxZivoty"></div>
+            </div>
+        </div>
+    </div>
+
+    <p class="prubehBoje">@Model.ZpravaPrubehuBoje</p>
+
+    @if (!Model.KonecSouboje)
+    {
+        <form method="post" asp-action="SoubojKolo">
+            <input type="hidden" name="soubojId" value="@Model.SoubojId" />
+            <input type="hidden" name=" "vybranyPokemon value="@Model.HracPokemon.Jmeno"/>
+            <button type="submit" name="utokJmeno" value="@Model.HracPokemon.UtokJedna.Jmeno" class="btn btn-warning">
+                @Model.HracPokemon.UtokJedna.Jmeno
+            </button>
+
+            <button type="submit" name="utokJmeno" value="@Model.HracPokemon.UtokDva.Jmeno" class="btn btn-danger">
+                @Model.HracPokemon.UtokDva.Jmeno
+            </button>
+        </form>
+    }
+    else
+    {
+        <a href="/" class="btn btn-primary">Zpět na výběr</a>
+    }
+</div>
+<script>
+    function aktualizujBarZivotu(id)
+    {
+        let bar = document.getElementById(id);
+        let zivoty = parseInt(bar.getAttribute("data-zivoty"));
+        let maxZivoty = parseInt(bar.getAttribute("data-max-zivoty"));
+        let zivotyProcenta  = (zivoty / maxZivoty) * 100;
+
+        bar.style.width = zivotyProcenta + "%";
+
+        if(zivotyProcenta > 50)
+        {
+            bar.style.backgroundColor = "#32CD32";
+        }
+        else if (zivotyProcenta > 25)
+        {
+            bar.style.backgroundColor = "#FF4500";
+        }
+        else
+        {
+            bar.style.backgroundColor = "#FF0000";
+        }
+    }
+    aktualizujBarZivotu("bar-zivotu-hrac")
+    aktualizujBarZivotu("bar-zivotu-protivnik")
+</script>

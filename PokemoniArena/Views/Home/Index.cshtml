@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model List<PokemoniArena.Models.Pokemon>
+
+<h1>Seznam pokemonů</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Jméno</th>
+            <th>Typ</th>
+            <th>Max Životy</th>
+            <th>Primární Útok</th>
+            <th>Sekundární Útok</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pokemon in Model)
+        {
+        <tr>
+            <th>@pokemon.Jmeno</th>
+            <th>@pokemon.Typ</th>
+            <th>@pokemon.MaxZivoty</th>
+            <th>@pokemon.UtokJedna.Jmeno</th>
+            <th>@pokemon.UtokDva.Jmeno</th>
+        </tr>
+        }
+    </tbody>
+</table>
+<h1>Vyber si svého Pokémona</h1>
+<form method="post" asp-action="SoubojStart">
+    <div class="form-group">
+        <select name="vybranyPokemon" class="form-control">
+        @foreach (var pokemon in Model)
+        {
+            <option value="@pokemon.Jmeno">@pokemon.Jmeno</option>
+        }
+        </select>
+    </div>
+    <div class="form-group mt-2">
+        <button type="submit" class="btn btn-primary">Bojuj!</button>
+    </div>
+</form>
+        
