@@ -8,26 +8,32 @@ namespace PokemoniArena.Models
         /// Název Pokemona
         /// </summary>
         public string Jmeno { get; set; }
+
         /// <summary>
         /// Typ Pokemona (např. ohivý, travní, elektrický)
         /// </summary>
         public string Typ { get; set; }
+
         /// <summary>
         /// Maximální počet životů Pokemona
         /// </summary>
         public int MaxZivoty { get; set; }
+
         /// <summary>
         /// Aktuální počet životů Pokemona
         /// </summary>
         public int Zivoty { get; set; }
+
         /// <summary>
         /// Primární útok Pokemona
         /// </summary>
         public Utok UtokJedna { get; set; }
+
         /// <summary>
         /// Sekundární útok Pokemona
         /// </summary>
         public Utok UtokDva { get; set; }
+
 
         /// <summary>
         /// Vytvoří novou instanci Pokemona
@@ -52,10 +58,11 @@ namespace PokemoniArena.Models
         /// </summary>
         /// <param name="souper">Pokemon na kterého se útočí</param>
         /// <param name="utok"> Použitý útok</param>
-        public void Utoc (Pokemon souper, Utok utok)
+        public int Utoc (Pokemon cil, Utok utok)
         {
-            int poskozeni = utok.Poskozeni + (utok.Kostka.Hod());
-            souper.BranSe(poskozeni, utok);
+            int poskozeni = utok.ZakladniPoskozeni + (utok.Kostka.Hod());
+            int celkovePoskozeni = cil.BranSe(poskozeni, utok);
+            return celkovePoskozeni;
         }
 
         /// <summary>
@@ -69,10 +76,11 @@ namespace PokemoniArena.Models
         /// </summary>
         /// <param name="poskozeni">Hodnota poškození, které má Pokemon obdržet</param>
         /// <param name="utok">Typ útoku, který ho zasáhl</param>
-        public void BranSe(int poskozeni, Utok utok)
+        public int BranSe(int poskozeni, Utok utok)
         {
             int zraneni = (int)(poskozeni * ZiskejCinitel(utok.Typ, this.Typ));
             Zivoty -= zraneni;
+            return zraneni;
         }
 
         /// <summary>
@@ -87,6 +95,12 @@ namespace PokemoniArena.Models
             {
                 ("Travní", "Ohnivý") => 0.95,
                 ("Ohnivý", "Travní") => 1.05,
+                ("Vodní", "Elektrický") => 0.95,
+                ("Elektrický", "Vodní") => 1.05,
+                ("Vodní", "Travní") => 0.95,
+                ("Travní", "Vodní") => 1.05,
+                ("Vodní", "Ohnivý") => 1.05,
+                ("Ohnivý", "Vodní") => 0.95,
                 _ => 1.0
             };
         }

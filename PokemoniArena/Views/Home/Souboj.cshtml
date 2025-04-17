@@ -2,18 +2,26 @@
 <div class="text-center">
     <h1>🥊 Pokémon Souboj! 🥊</h1>
     <div class="row">
+        <!-- Hráčův Pokemon -->
         <div class="col-sm pokemon-container">
             <img src="~/image/@(Model.HracPokemon.Jmeno.ToLower()).png" alt="@Model.HracPokemon.Jmeno" class="pokemon-img"/>
+
+            <!-- Ukazatel životů hráčova Pokemona -->
             <div class="zivoty-container">
                 <div class="zivoty-text"><p>@Model.HracPokemon.Zivoty / @Model.HracPokemon.MaxZivoty</p></div>
                 <div class="bar-zivotu" id="bar-zivotu-hrac" data-zivoty="@Model.HracPokemon.Zivoty" data-max-zivoty="@Model.HracPokemon.MaxZivoty"></div>
             </div>
         </div>
+
+        <!-- Část obsahující úvodní zprávu -->
         <div class="col-sm">
             <h2>@Model.UvodniZprava</h2>
         </div>
+
+        <!-- Protivníkův Pokemon -->
         <div class="col-sm pokemon-container">
             <img src="~/image/@(Model.Protivnik.Jmeno.ToLower()).png" alt="@Model.Protivnik.Jmeno" class="pokemon-img"/>
+            <!-- Ukazatel životů protivníkova Pokemona -->
             <div class="zivoty-container">
                 <div class="zivoty-text"><p>@Model.Protivnik.Zivoty / @Model.Protivnik.MaxZivoty</p></div>
                 <div class="bar-zivotu" id="bar-zivotu-protivnik" data-zivoty="@Model.Protivnik.Zivoty" data-max-zivoty="@Model.Protivnik.MaxZivoty"></div>
@@ -21,28 +29,36 @@
         </div>
     </div>
 
-    <p class="prubehBoje">@Model.ZpravaPrubehuBoje</p>
+    <!-- Zpráva o průběhu boje -->
+    <pre class="prubehBoje">@Model.ZpravaPrubehuBoje</pre>
 
     @if (!Model.KonecSouboje)
     {
+        <!-- Formulář pro provedení útoku -->
         <form method="post" asp-action="SoubojKolo">
             <input type="hidden" name="soubojId" value="@Model.SoubojId" />
             <input type="hidden" name=" "vybranyPokemon value="@Model.HracPokemon.Jmeno"/>
-            <button type="submit" name="utokJmeno" value="@Model.HracPokemon.UtokJedna.Jmeno" class="btn btn-warning">
-                @Model.HracPokemon.UtokJedna.Jmeno
+            <!-- Primární útok -->
+            <button type="submit" name="utokJmeno" value="@Model.HracPokemon.UtokJedna.Jmeno" id="tlacitkoUtokuJedna" class="btn" title="@Model.HracPokemon.UtokJedna.Typ" data-typ="@Model.HracPokemon.UtokJedna.Typ">
+                @Model.HracPokemon.UtokJedna.Jmeno @Model.HracPokemon.UtokJedna.RozsahPoskozeni 
             </button>
 
-            <button type="submit" name="utokJmeno" value="@Model.HracPokemon.UtokDva.Jmeno" class="btn btn-danger">
-                @Model.HracPokemon.UtokDva.Jmeno
+            <!-- Sekundární útok -->
+            <button type="submit" name="utokJmeno" value="@Model.HracPokemon.UtokDva.Jmeno" id="tlacitkoUtokuDva" class="btn" title="@Model.HracPokemon.UtokDva.Typ" data-typ="@Model.HracPokemon.UtokDva.Typ">
+                @Model.HracPokemon.UtokDva.Jmeno @Model.HracPokemon.UtokDva.RozsahPoskozeni
             </button>
         </form>
     }
     else
     {
+        <!-- Tlačítko pro návrat na úvodní stránku -->
         <a href="/" class="btn btn-primary">Zpět na výběr</a>
     }
 </div>
 <script>
+    /**
+    * Aktualizuje vizuální stav ukazatele životů pro zadaného Pokemona.
+    */
     function aktualizujBarZivotu(id)
     {
         let bar = document.getElementById(id);
@@ -50,8 +66,10 @@
         let maxZivoty = parseInt(bar.getAttribute("data-max-zivoty"));
         let zivotyProcenta  = (zivoty / maxZivoty) * 100;
 
+        // Nastavení šířky ukazatele životů podle procenta životů
         bar.style.width = zivotyProcenta + "%";
 
+        // Změna barvy podle zbbývajících životů
         if(zivotyProcenta > 50)
         {
             bar.style.backgroundColor = "#32CD32";
@@ -65,6 +83,49 @@
             bar.style.backgroundColor = "#FF0000";
         }
     }
-    aktualizujBarZivotu("bar-zivotu-hrac")
-    aktualizujBarZivotu("bar-zivotu-protivnik")
+    // Aktualizace ukazatelé životů pro hráče i protivníka
+    aktualizujBarZivotu("bar-zivotu-hrac");
+    aktualizujBarZivotu("bar-zivotu-protivnik");
+    
+    function nastavBarvuTlacitka(id)
+    {
+        let tlacitko = document.getElementById(id);
+        let typUtoku = tlacitko.getAttribute("data-typ").toLowerCase();
+        let emoji = "❓";
+        let barva = "btn-dark";
+
+        switch (typUtoku)
+        {
+            case "elektrický":
+                barva = "btn-warning";
+                emoji = "⚡";
+                break;
+            case "ohnivý":
+                barva = "btn-danger";
+                emoji = "🔥";
+                break;
+            case "vodní":
+                barva = "btn-primary";
+                emoji = "🌊";
+                break;
+            case "normální":
+                barva = "btn-secondary";
+                emoji = "🐧";
+                break;
+            case "travní":
+                barva = "btn-success";
+                emoji = "🍃";
+                break;
+            default:
+                barva = "btn-dark";
+                break;
+        }
+        tlacitko.classList.add(barva);
+
+        tlacitko.innerText = `${emoji} ` + tlacitko.innerText.trim() + `${emoji} `;
+    }
+
+    nastavBarvuTlacitka("tlacitkoUtokuJedna");
+    nastavBarvuTlacitka("tlacitkoUtokuDva");
+    
 </script>

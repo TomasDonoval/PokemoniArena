@@ -5,11 +5,13 @@
         /// <summary>
         /// Počet stěn kostky
         /// </summary>
-        int PocetSten { get; set; }
+        public int PocetSten { get; set; }
+
         /// <summary>
         /// Generátor náhodných čísel
         /// </summary>
         private readonly Random random = new Random();
+
         /// <summary>
         /// Inicializuje novou instanci kostky s daným počtem stěn
         /// </summary>
@@ -18,6 +20,7 @@
         {
             PocetSten = pocetSten;
         }
+
         /// <summary>
         /// Provede hod kostkou
         /// </summary>

@@ -13,6 +13,7 @@ namespace PokemoniArena.Controllers
     {
         private readonly PokemonDbContext _dbContext;
         private readonly PrubehSouboje _prubehSouboje;
+
         /// <summary>
         /// Inicializuje kontroler s databázý a službou pro správu soubojù
         /// </summary>
@@ -22,6 +23,7 @@ namespace PokemoniArena.Controllers
             _dbContext = dbContext;
             _prubehSouboje = new PrubehSouboje(dbContext);
         }
+
         /// <summary>
         /// Zobrazí úvodní stránku s vytvoøenými Pokemony
         /// </summary>
@@ -30,6 +32,7 @@ namespace PokemoniArena.Controllers
         {
             return View(_prubehSouboje.GetPokemons());
         }
+
         /// <summary>
         /// Zobrazí prùbìh souboje
         /// </summary>
@@ -60,6 +63,7 @@ namespace PokemoniArena.Controllers
             int soubojId = _prubehSouboje.ZacatekSouboje(vybranyPokemon);
             return RedirectToAction("Souboj", new { soubojId });
         }
+
         /// <summary>
         /// Zpracuje jedno kolo souboje
         /// </summary>

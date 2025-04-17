@@ -11,6 +11,7 @@ namespace PokemoniArena.Models
         private List<Utok> seznamUtoku; // Seznam možných útoků
         private Kostka sestiStenka = new Kostka(6); // Šestistěnná kostka pro generování náhodných čísel
         private Kostka desetiStenka = new Kostka(10); // Desetistěnná kostka pro generování náhodných čísel
+        private Kostka dvacetiStenka = new Kostka(20); // Dvacetistěnná kostka pro generování náhodných čísel
 
         /// <summary>
         /// Inicializuje novou instanci třídy PrubehSouboje a nastaví seznam dostupných pokemonů a útoků
@@ -22,17 +23,19 @@ namespace PokemoniArena.Models
             seznamUtoku = new List<Utok>
         {
             new Utok("Wild Charge", 14, "Elektrický", sestiStenka),
-            new Utok("Thunder Bolt", 11, "Elektrický", desetiStenka),
+            new Utok("Thunder Bolt", 12, "Elektrický", desetiStenka),
             new Utok("Seed Bomb", 13, "Travní", sestiStenka),
-            new Utok("Power Whip", 10, "Travní", desetiStenka),
-            new Utok("Flamethrower", 15, "Ohnivý", sestiStenka),
-            new Utok("Flame Burst", 12, "Ohnivý", desetiStenka)
+            new Utok("Tackle", 11, "Normální", desetiStenka),
+            new Utok("Flamethrower", 16, "Ohnivý", sestiStenka),
+            new Utok("Scratch", 14, "Normální", desetiStenka),
+            new Utok("Hydro Pump", 9, "Vodní", dvacetiStenka)
         };
             pokemons = new List<Pokemon>
         {
-            new Pokemon("Pikachu", "Elektrický", 215, seznamUtoku[0], seznamUtoku[1]),
+            new Pokemon("Pikachu", "Elektrický", 220, seznamUtoku[0], seznamUtoku[1]),
             new Pokemon("Bulbasaur", "Travní", 240, seznamUtoku[2], seznamUtoku[3]),
-            new Pokemon("Charmander", "Ohnivý", 200, seznamUtoku[4], seznamUtoku[5])
+            new Pokemon("Charmander", "Ohnivý", 200, seznamUtoku[4], seznamUtoku[5]),
+            new Pokemon("Squirtle", "Vodní", 200, seznamUtoku[5], seznamUtoku[6])
         };
         }
 
@@ -94,17 +97,16 @@ namespace PokemoniArena.Models
             // Útok hráče
             StringBuilder prubeh = new StringBuilder();
             Utok vybranyUtok = seznamUtoku.FirstOrDefault(p => p.Jmeno == utokJmeno);
-            hrac.Utoc(protivnik, vybranyUtok);
-            prubeh.AppendLine($"{hrac.Jmeno} použil {vybranyUtok.Jmeno},");
+            int poskozeniHrac = hrac.Utoc(protivnik, vybranyUtok);
+            prubeh.AppendLine($"{hrac.Jmeno} použil {vybranyUtok.Jmeno} a způsobil {poskozeniHrac} poškození.");
 
             // Zkontroluji zda protivník přežil, pokud ano následuje jeho útok
             if (protivnik.NaZivu())
             {
                 Utok protivnikUtok = new Random().Next(2) == 0 ? protivnik.UtokJedna : protivnik.UtokDva;
-                protivnik.Utoc(hrac, protivnikUtok);
-                prubeh.AppendLine($"{protivnik.Jmeno} použil {protivnikUtok.Jmeno}.");
+                int poskozeniProtivnik = protivnik.Utoc(hrac, protivnikUtok);
+                prubeh.AppendLine($"{protivnik.Jmeno} použil {protivnikUtok.Jmeno} a způsobil {poskozeniProtivnik} poškození.");
             }
-            prubeh.AppendLine($" {hrac.Jmeno} má {hrac.Zivoty} životů a {protivnik.Jmeno} má {protivnik.Zivoty}");
 
             // Určení zda souboj skončil
             bool konec = !hrac.NaZivu() || !protivnik.NaZivu();

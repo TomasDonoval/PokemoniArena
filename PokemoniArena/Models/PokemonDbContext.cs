@@ -7,11 +7,13 @@ namespace PokemoniArena.Models
         /// Databázová sada obsahující souboje mezi Pokemony
         /// </summary>
         public DbSet<Souboj> Souboje { get; set; }
+
         /// <summary>
         /// Inicializuje nová kontext databáze
         /// </summary>
         /// <param name="options">Možnosti konfigurace dazabázového kontextu</param>
         public PokemonDbContext(DbContextOptions<PokemonDbContext> options) : base(options) { }
+
         /// <summary>
         /// Konfigurace databázového modelu
         /// Nastavuje primární klíč entity Souboj

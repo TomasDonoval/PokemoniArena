@@ -2,8 +2,9 @@
     ViewData["Title"] = "Home Page";
 }
 @model List<PokemoniArena.Models.Pokemon>
-
 <h1>Seznam pokemonů</h1>
+
+<!-- Tabulka zobrazující pokemony v datanázi a jejich útoky -->
 <table class="table">
     <thead>
         <tr>
@@ -11,7 +12,9 @@
             <th>Typ</th>
             <th>Max Životy</th>
             <th>Primární Útok</th>
+            <th>Poškození primárního útoku</th>
             <th>Sekundární Útok</th>
+            <th>Poškození sekundárního útoku</th>
         </tr>
     </thead>
     <tbody>
@@ -22,12 +25,19 @@
             <th>@pokemon.Typ</th>
             <th>@pokemon.MaxZivoty</th>
             <th>@pokemon.UtokJedna.Jmeno</th>
+            <th>@pokemon.UtokJedna.RozsahPoskozeni</th>
             <th>@pokemon.UtokDva.Jmeno</th>
+            <th>@pokemon.UtokDva.RozsahPoskozeni</th>
         </tr>
         }
     </tbody>
 </table>
+<div class="alert alert-warning">
+    <span>Typ pokemona hraje roli – ohnivý je silný proti travnímu, vodní je silný proti ohnivému atd. Zvaž to při výběru Pokémona!</span>
+</div>
+<!-- Výběr pokemona pro zahájení -->
 <h1>Vyber si svého Pokémona</h1>
+<!-- Formulář, který odešle zvoleného pokemona na server -->
 <form method="post" asp-action="SoubojStart">
     <div class="form-group">
         <select name="vybranyPokemon" class="form-control">
@@ -37,6 +47,8 @@
         }
         </select>
     </div>
+
+    <!-- Tlačítko pro zahájení souboje -->
     <div class="form-group mt-2">
         <button type="submit" class="btn btn-primary">Bojuj!</button>
     </div>
