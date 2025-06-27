@@ -14,3 +14,6 @@ Tahová bojová hra kde spolu bojují 2 Pokemoni programovaná v C# ASP.NET
 ## Technologie
 - C#
 - ASP.NET
+- HTML
+- CSS
+- SQL?
