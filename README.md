@@ -9,7 +9,7 @@ Tahová bojová hra, ve které spolu bojují dva Pokemoni. Projekt je vytvořen�
 - Ukládání a načítání dat pomocí SQLite databáze
 
 ## Jak spustit program
-- Otevřít solution ve VisualStudiu
+- Otevřít solution ve Visual Studiu
 - Spustit hlavní projekt
 
 ## Technologie
