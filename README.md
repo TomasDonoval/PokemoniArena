@@ -4,7 +4,7 @@ Tahová bojová hra, ve které spolu bojují dva Pokemoni. Projekt je vytvořen�
 ## Funkce
 - Výběr pokemona s unikátními vlastnostmi a útoky
 - Každý pokemon má dva útoky, mezi kterými hráč vybírá v každém kole
-- Použití simulace hodu různými typi kostek pro výpočet způsobeného poškození
+- Použití simulace hodu různými typy kostek pro výpočet způsobeného poškození
 - Bojová logika se sledováním životů a typem útoků
 - Ukládání a načítání dat pomocí SQLite databáze
 
